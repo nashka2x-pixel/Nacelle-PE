@@ -4,6 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Gestion des Nacelles</title>
+
+  <!-- Icônes (onglet + iPhone écran d'accueil) -->
+  <link rel="icon" href="https://i.postimg.cc/HxGb6VCY/Design-sans-titre.jpg" type="image/jpeg">
+  <link rel="apple-touch-icon" href="https://i.postimg.cc/HxGb6VCY/Design-sans-titre.jpg">
+
+  <!-- (Optionnel) Vignette quand tu partages le lien -->
+  <meta property="og:title" content="Gestion des Nacelles">
+  <meta property="og:description" content="Application simple pour placer les groupes par nacelle.">
+  <meta property="og:image" content="https://i.postimg.cc/HxGb6VCY/Design-sans-titre.jpg">
+
   <style>
     :root{ --max: 13; }
     *{ box-sizing: border-box; margin:0; padding:0; }
@@ -17,6 +27,10 @@
       min-height: 100vh;
       display: flex; flex-direction: column; gap: 8px; padding: 8px;
     }
+
+    /* Logo haut */
+    .header { display:flex; justify-content:center; }
+    .logo { height: 60px; width: auto; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,.2); }
 
     .toolbar { display:flex; justify-content:center; margin-bottom: 6px; }
     .btn { font-size: 18px; padding: 10px 14px; border: none; border-radius: 12px; background: #0b72e7; color: white; box-shadow: 0 3px 8px rgba(0,0,0,.2); cursor: pointer; min-width: 180px; }
@@ -61,6 +75,12 @@
   </style>
 </head>
 <body class="app">
+
+  <!-- Logo -->
+  <header class="header">
+    <img class="logo" src="https://i.postimg.cc/HxGb6VCY/Design-sans-titre.jpg" alt="Logo Nacelles">
+  </header>
+
   <div class="toolbar">
     <button class="btn" id="resetBtn">🔄 Nouvelle séance</button>
   </div>
