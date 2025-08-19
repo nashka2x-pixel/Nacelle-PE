@@ -5,24 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Gestion des Nacelles</title>
 
-  <!-- Icône d’onglet -->
+  <!-- Icônes (n’affichent rien dans la page) -->
   <link rel="icon" href="https://i.postimg.cc/HxGb6VCY/Design-sans-titre.jpg" type="image/jpeg">
-  <!-- Icône écran d’accueil iOS/Android -->
   <link rel="apple-touch-icon" href="https://i.postimg.cc/HxGb6VCY/Design-sans-titre.jpg">
-  <!-- PWA manifest (pour Android/Chrome) -->
   <link rel="manifest" href="manifest.json">
 
-  <!-- Métadonnées pour l’aperçu quand tu partages le lien -->
-  <meta property="og:title" content="Gestion des Nacelles">
-  <meta property="og:description" content="Application simple pour placer les groupes par nacelle.">
-  <meta property="og:image" content="https://i.postimg.cc/HxGb6VCY/Design-sans-titre.jpg">
-  <!-- (optionnel) mets ici l’URL finale de ton site -->
-  <!-- <meta property="og:url" content="https://ton-pseudo.github.io/ton-repo/"> -->
-
-  <!-- Couleurs d’UI mobiles -->
   <meta name="theme-color" content="#0b72e7">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
 
   <style>
     :root{ --max: 13; }
@@ -41,15 +29,13 @@
     .toolbar { display:flex; justify-content:center; margin-bottom: 6px; }
     .btn { font-size: 18px; padding: 10px 14px; border: none; border-radius: 12px; background: #0b72e7; color: white; box-shadow: 0 3px 8px rgba(0,0,0,.2); cursor: pointer; min-width: 180px; }
 
-    /* Couloir compact */
     .corridor { max-width: 560px; width: 100%; margin: 0 auto; flex: 1; display: grid; gap: 8px; grid-template-rows: repeat(5, 1fr); }
-
     .row { display: grid; grid-template-columns: 1fr 68px; gap: 8px; }
 
     .zone {
       display:grid; grid-template-columns: 90px 1fr; align-items: center; gap: 8px;
       padding: 10px; border-radius: 14px;
-      background: rgba(255,255,255,0.7); /* blanc translucide */
+      background: rgba(255,255,255,0.7);
       box-shadow: 0 4px 10px rgba(0,0,0,.15);
       cursor: pointer; border: 2px solid rgba(0,0,0,.06);
     }
@@ -57,14 +43,13 @@
 
     .left { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; }
     .rem { font-weight: 900; font-variant-numeric: tabular-nums; line-height: 1; font-size: clamp(30px, 5.6vh, 48px); }
-    .label { font-size: clamp(15px, 1.9vh, 16px); font-weight: bold; color:#b22222; } /* rouge foncé */
+    .label { font-size: clamp(15px, 1.9vh, 16px); font-weight: bold; color:#b22222; }
 
-    /* Points 4-5-4 */
     .dots { display:flex; flex-direction:column; gap: 12px; align-items:center; justify-content:center; }
     .dots-row { display:grid; grid-auto-flow: column; gap: 10px; align-items:center; justify-content:center; }
     .dot { width: clamp(26px, 4vh, 32px); height: clamp(26px, 4vh, 32px); border-radius: 50%; box-shadow: inset 0 0 0 2px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.15); }
-    .dot.free { background: #ff3333; }  /* rouge vif = libre */
-    .dot.taken { background: #555; }    /* gris = pris */
+    .dot.free { background: #ff3333; }
+    .dot.taken { background: #555; }
 
     .minus {
       border: none; border-radius: 14px; background: #ff5757; color: #fff;
@@ -94,7 +79,6 @@
 
     const corridor = document.getElementById('corridor');
 
-    // Crée les nacelles
     for (let i = 0; i < NACELLES; i++) {
       const row = document.createElement('div');
       row.className = 'row';
