@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Gestion des Nacelles</title>
+  <style>
+    :root{ --max: 13; }
+    *{ box-sizing: border-box; margin:0; padding:0; }
+
+    body.app {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: url("https://i.postimg.cc/13n4X0XY/background-optimized.jpg") no-repeat center center fixed;
+      background-size: cover;
+      color: #0b253a;
+      user-select: none;
+      min-height: 100vh;
+      display: flex; flex-direction: column; gap: 8px; padding: 8px;
+    }
+
+    .toolbar { display:flex; justify-content:center; margin-bottom: 6px; }
+    .btn { font-size: 18px; padding: 10px 14px; border: none; border-radius: 12px; background: #0b72e7; color: white; box-shadow: 0 3px 8px rgba(0,0,0,.2); cursor: pointer; min-width: 180px; }
+
+    /* Couloir compact */
+    .corridor { max-width: 560px; width: 100%; margin: 0 auto; flex: 1; display: grid; gap: 8px; grid-template-rows: repeat(5, 1fr); }
+
+    .row { display: grid; grid-template-columns: 1fr 68px; gap: 8px; }
+
+    .zone {
+      display:grid; grid-template-columns: 90px 1fr; align-items: center; gap: 8px;
+      padding: 10px; border-radius: 14px;
+      background: rgba(255,255,255,0.7); /* blanc translucide */
+      box-shadow: 0 4px 10px rgba(0,0,0,.15);
+      cursor: pointer; border: 2px solid rgba(0,0,0,.06);
+    }
+    .zone:active { transform: scale(.99); }
+
+    .left { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; }
+    .rem { font-weight: 900; font-variant-numeric: tabular-nums; line-height: 1; font-size: clamp(30px, 5.6vh, 48px); }
+    .label { font-size: clamp(15px, 1.9vh, 16px); font-weight: bold; color:#b22222; } /* rouge foncé */
+
+    /* Points 4-5-4 */
+    .dots { display:flex; flex-direction:column; gap: 12px; align-items:center; justify-content:center; }
+    .dots-row { display:grid; grid-auto-flow: column; gap: 10px; align-items:center; justify-content:center; }
+    .dot { width: clamp(26px, 4vh, 32px); height: clamp(26px, 4vh, 32px); border-radius: 50%; box-shadow: inset 0 0 0 2px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.15); }
+    .dot.free { background: #ff3333; }  /* rouge vif */
+    .dot.taken { background: #555; }    /* gris foncé */
+
+    .minus {
+      border: none; border-radius: 14px; background: #ff5757; color: #fff;
+      font-weight: 800; font-size: clamp(24px, 5.5vh, 38px); line-height: 1;
+      display:flex; align-items:center; justify-content:center;
+      box-shadow: 0 4px 10px rgba(0,0,0,.2); cursor: pointer;
+    }
+    .minus:active { transform: scale(.98); }
+
+    @media (max-width: 520px){
+      .row { grid-template-columns: 1fr 64px; }
+      .zone{ grid-template-columns: 86px 1fr; }
+    }
+  </style>
+</head>
+<body class="app">
+  <div class="toolbar">
+    <button class="btn" id="resetBtn">🔄 Nouvelle séance</button>
+  </div>
+
+  <main class="corridor" id="corridor"></main>
+
+  <script>
+    const NACELLES = 5;
+    let MAX = 13;
+    let counts = Array(NACELLES).fill(0);
+
+    const corridor = document.getElementById('corridor');
+
+    // Crée les nacelles
+    for (let i = 0; i < NACELLES; i++) {
+      const row = document.createElement('div');
+      row.className = 'row';
+
+      const zone = document.createElement('div');
+      zone.className = 'zone';
+      zone.dataset.index = i;
+
+      const left = document.createElement('div');
+      left.className = 'left';
+      left.innerHTML = `<div class="rem" id="rem-${i}">${MAX}</div><div class="label">Nacelle ${i+1}</div>`;
+
+      const dots = document.createElement('div');
+      dots.className = 'dots';
+      dots.innerHTML = `
+        <div class="dots-row">${'<div class="dot free"></div>'.repeat(4)}</div>
+        <div class="dots-row">${'<div class="dot free"></div>'.repeat(5)}</div>
+        <div class="dots-row">${'<div class="dot free"></div>'.repeat(4)}</div>
+      `;
+
+      zone.appendChild(left);
+      zone.appendChild(dots);
+
+      zone.addEventListener('click', () => add(i));
+
+      const minus = document.createElement('button');
+      minus.className = 'minus';
+      minus.textContent = '−';
+      minus.addEventListener('click', (e) => { e.stopPropagation(); remove(i); });
+
+      row.appendChild(zone);
+      row.appendChild(minus);
+      corridor.appendChild(row);
+    }
+
+    function update(){
+      for (let i = 0; i < NACELLES; i++) {
+        const zone = corridor.querySelectorAll('.zone')[i];
+        const rem = zone.querySelector('.rem');
+        const dots = zone.querySelectorAll('.dot');
+
+        const c = counts[i];
+        const reste = Math.max(0, MAX - c);
+
+        rem.textContent = reste;
+
+        dots.forEach((d,j) => {
+          if (j < c) d.className = 'dot taken';
+          else d.className = 'dot free';
+        });
+      }
+    }
+
+    function add(i){ if (counts[i] < MAX) counts[i]++; update(); }
+    function remove(i){ if (counts[i] > 0) counts[i]--; update(); }
+    function resetAll(){ counts = Array(NACELLES).fill(0); update(); }
+
+    document.getElementById('resetBtn').addEventListener('click', resetAll);
+
+    update();
+  </script>
+</body>
+</html>
