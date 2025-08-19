@@ -1,0 +1,20 @@
+{
+  "name": "Gestion des Nacelles",
+  "short_name": "Nacelles",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#0b72e7",
+  "theme_color": "#0b72e7",
+  "icons": [
+    {
+      "src": "https://i.postimg.cc/HxGb6VCY/Design-sans-titre.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "https://i.postimg.cc/HxGb6VCY/Design-sans-titre.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}
